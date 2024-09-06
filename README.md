@@ -1,10 +1,57 @@
-Linux User Creation- Bash Scripting
+# Linux User Creation- Bash Scripting
 
-In today's DevOps environments, automating routine system administration tasks is necessary for efficiency and consistency. One common task is the creation and management of user accounts on Linux systems. This article structure adheres to the technical requirements specified in the HNG Internship stage one task.
-HNG Task
-Your company has employed many new developers. As a SysOps engineer, write a bash script called create_users.sh that reads a text file containing the employee’s usernames and group names, where each line is formatted as user;groups.
+## Overview
 
-Script Developmen:
-The Bash script is designed to automate the creation of users based on input from a text file. This script addresses specific requirements such as creating users with appropriate groups, setting up home directories, generating secure passwords, and logging all actions for auditing purposes. Passwords are to be stored securely in /var/secure/user_passwords.txt and all actions logged to /var/log/user_management.log.
+This Bash script automates the creation of users on a Unix-like system. It handles the creation of user accounts, groups, and assigns users to specified groups. Additionally, it logs actions and stores user passwords securely.
 
-Read more: https://dev.to/lucy_76er/linux-user-creation-bash-scripting-kl1
+## Features
+
+- **User and Group Creation**: Creates users and their respective groups if they do not already exist.
+- **Password Generation**: Automatically generates a secure random password for each user.
+- **Logging**: Logs all actions performed by the script to `/var/log/user_management.log`.
+- **Secure Password Storage**: Stores user passwords securely in `/var/secure/user_passwords.txt` with appropriate permissions.
+
+## Prerequisites
+
+- Ensure the script is run with appropriate permissions (e.g., as root or with sudo).
+- Required directories and files:
+  - `/var/log/user_management.log`
+  - `/var/secure/user_passwords.txt`
+
+## Usage
+
+1. **Prepare User List File**:
+   - Create a file with user details. Each line should contain a username and a list of groups separated by a semicolon (`;`). For example:
+     ```
+     john_doe;admin,developers
+     jane_smith;users
+     ```
+
+2. **Run the Script**:
+   - Make the script executable:
+     ```bash
+     chmod +x create_users.sh
+     ```
+   - Execute the script with the user list file as an argument:
+     ```bash
+     sudo ./create_users.sh user_list.txt
+     ```
+
+3. **Configuration**:
+   - The script automatically creates the necessary directories and files. Ensure that `/var/log` and `/var/secure` are accessible.
+
+## Script Breakdown
+
+- **`log_action()`**: Logs actions with a timestamp to `/var/log/user_management.log`.
+- **`create_user()`**: Handles user creation, group assignment, and password generation. Stores passwords in `/var/secure/user_passwords.txt`.
+- **Main Execution**: Reads the user list file and calls `create_user()` for each entry.
+
+## Security Considerations
+
+- **Password Storage**: Passwords are stored in `/var/secure/user_passwords.txt` with restricted permissions (`chmod 600`). Ensure this file is secured.
+- **Directory Permissions**: User home directories are set to `700` to ensure privacy.
+
+
+
+
+**Article available at**: https://dev.to/lucy_76er/linux-user-creation-bash-scripting-kl1
